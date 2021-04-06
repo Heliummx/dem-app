@@ -1,1 +1,24 @@
-<p>login works!</p>
+<div class="wrapper fadeInDown" style="    background-image:url(../../../assets/login-fondo.jpg)">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+  
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <img src="../../../assets/MDH-2_NEGRO-COLOR.png" class="icon" alt="MDH Bikes" />
+      </div>
+  
+      <!-- Login Form -->
+      <form #formLogin="ngForm" (ngSubmit)="onLogin()">
+        
+              <input type="email" id="email" class="fadeIn second" name="email" [(ngModel)]="user.email" placeholder="Correo electrónico"> 
+              <input type="password" id="password" [(ngModel)]="user.password" class="fadeIn third mb-3" name="login" placeholder="Contraseña">
+         
+        <input type="submit" class="fadeIn fourth" value="Entrar">
+      </form>
+  
+      <!-- Remind Passowrd -->
+      <!-- <div id="formFooter">
+        <a class="underlineHover" href="#">¿Olvidaste tú contraseña?</a>
+      </div> -->
+    </div>
+  </div>

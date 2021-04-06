@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { DistribuidoresComponent } from './components/distribuidores/distribuidores.component';
 import { LoginComponent } from './components/login/login.component';
+import { ProductosTiendaComponent } from './components/productos-tienda/productos-tienda.component';
+import { TiendasComponent } from './components/tiendas/tiendas.component';
 
 
 const routes: Routes = [
-  {path:'home', component:HomeComponent},
   {path:'login', component:LoginComponent},
+  {path:'tiendas', component:TiendasComponent},
+  {path:'distribuidores', component:DistribuidoresComponent},
+  {path:'productos-tienda', component:ProductosTiendaComponent},
   {path: '',
       redirectTo: '/login',
       pathMatch: 'full'

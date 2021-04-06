@@ -1,0 +1,24 @@
+<nav *ngIf="displayMenu" class="navbar navbar-expand-lg sticky-top navbar-dark bg-mdh ">
+    
+    <div class="navbar-brand">
+        <img src="../../../assets/mdh-logo.png"  height="30" alt="">
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav ">
+        <li class="nav-item ">
+          <a class="nav-link" [routerLink]="['/tiendas']">Tiendas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/distribuidores']">Distribuidores</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" (click)="onLogout()" [routerLink]="['/distribuidores']">Cerrar sesión</a>
+        </li>
+      </ul>
+    </div>
+  </nav>

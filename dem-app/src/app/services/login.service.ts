@@ -2,19 +2,20 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/internal/Observable";
 import { map } from "rxjs/operators";
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: "root"
 })
 export class LoginService {
-  constructor(public htttp: HttpClient) {}
+  constructor(public http: HttpClient) {}
   headers: HttpHeaders = new HttpHeaders({
     "Content-Type": "application/json"
   });
 
   registerUser(name: string, email: string, password: string) {
     const url_api = "https://afternoon-cove-64624.herokuapp.com/api/Usuarios";
-    return this.htttp
+    return this.http
       .post(
         url_api,
         {
@@ -27,12 +28,12 @@ export class LoginService {
       .pipe(map(data => data));
   }
 
-  loginuser(email: string, password: string): Observable<any> {
-    const url_api = "https://afternoon-cove-64624.herokuapp.com/api/Usuarios/login?include=user";
-    return this.htttp
+  loginuser(mail: string, clave: string): Observable<any> {
+    const url_api = environment.api_url + "/login"
+    return this.http
       .post(
         url_api,
-        { email, password },
+        { mail, clave },
         { headers: this.headers }
       )
       .pipe(map(data => data));
@@ -62,10 +63,7 @@ export class LoginService {
   }
 
   logoutUser() {
-    let accessToken = localStorage.getItem("accessToken");
-    const url_api = `https://afternoon-cove-64624.herokuapp.com/api/Usuarios/logout?access_token=${accessToken}`;
     localStorage.removeItem("accessToken");
     localStorage.removeItem("currentUser");
-    return this.htttp.post(url_api, { headers: this.headers });
   }
 }

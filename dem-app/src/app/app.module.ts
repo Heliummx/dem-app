@@ -1,30 +1,46 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import {ToastrModule} from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
 
+// Components
+import { LoginComponent } from './components/login/login.component';
+import { TiendasComponent } from './components/tiendas/tiendas.component';
+import { ProductosTiendaComponent } from './components/productos-tienda/productos-tienda.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { DistribuidoresComponent } from './components/distribuidores/distribuidores.component';
+
+// Services and utilitys
 import { ToastService } from './services/toast.service';
+import {ToastrModule} from 'ngx-toastr';
+import { FormsModule }   from '@angular/forms';
+import { GlobalService } from './services/global.service';
+import { DataApiService } from './services/data-api.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    LoginComponent
+    LoginComponent,
+    TiendasComponent,
+    ProductosTiendaComponent,
+    NavbarComponent,
+    FooterComponent,
+    DistribuidoresComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    FormsModule
   ],
-  providers: [ToastService],
-  bootstrap: [AppComponent]
+  providers: [ ToastService, GlobalService, DataApiService ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
