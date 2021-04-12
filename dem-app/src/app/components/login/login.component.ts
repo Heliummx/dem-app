@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
   onLogin(){
     return this.auth.loginuser(this.user.email,this.user.password)
     .subscribe((succes:any)=>{
-      console.log(succes)
       if(succes.message && succes.message == "fail"){
         this.toastr.showError('Contraseña o correo inválidos');
       }

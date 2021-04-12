@@ -1,1 +1,67 @@
-<p>distribuidores works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mt-4 mb-4">Distribuidores</h1>
+            <table class="table  table-hover">
+                <thead class="thead-mdh">
+                  <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">RFC</th>
+                    <th scope="col">Dirección</th>
+                    <th scope="col">Contraseña</th>
+                    <th scope="col">Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let u of users;">
+                    <th scope="row">{{u.nombre}}</th>
+                    <td>{{u.mail}}</td>
+                    <td>{{u.telefono}}</td>
+                    <td>{{u.rfc}}</td>
+                    <td>{{u.direccion}}</td>
+                    <td><button (click)="userId=u.credencialesId" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#passModal">Cambiar</button></td>
+                    <td><button (click)="deleteUser(u.credencialesId)" type="button" class="btn btn-danger btn-sm">Eliminar</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+        </div>
+    </div>
+</div>
+
+
+ <!--         ADD CLIENT          -->
+
+ <div class="modal fade" id="passModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLongTitle">Cambiar contraseña</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+     
+          <form class="form-product">
+            <div class="form-group">
+              <label for="nombre">Ingresa la nueva contraseña</label>
+              <input  [(ngModel)]="pass1" name="nombre" type="password" class="form-control" id="nombre">
+            </div>  
+            <div class="form-group">
+              <label for="nombre">Ingresala de nuevo</label>
+              <input  [(ngModel)]="pass2" name="telefono" type="password" class="form-control" id="telefono">
+            </div>
+              
+          </form>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="validatePass(pass1, pass2)" data-dismiss="modal" class="btn btn-primary">Cambiar</button>
+        <button type="button" (click)="pass1='';pass2='';"class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

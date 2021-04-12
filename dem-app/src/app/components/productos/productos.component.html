@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="row">   
+        <h1 class="text-center mt-4 mb-4 float-right">Productos</h1>    
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-hover">
+                <thead class="thead-mdh">
+                  <tr>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Variantes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let p of productos">
+                    <td>...</td>
+                    <th scope="row">{{p.nombre}}</th>
+                    <td>{{p.descripcion}}</td>
+                    <td>{{p.vendor}}</td>
+                    <td><button (click)="getVariantes(p.id)" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#addTienda">Ver</button></td>
+                  </tr>
+                </tbody>
+              </table>         
+        </div>
+    </div>
+</div>
+
+
+ <!--         CREAR TIENDA          -->
+
+ <div class="modal fade" id="addTienda" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLongTitle">Variantes</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+     
+        <table class="table table-hover">
+            <thead class="thead-mdh">
+              <tr>
+                <th scope="col">SKU</th>
+                <th scope="col">Precio Odoo</th>
+                <th scope="col">Stock</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of productos;">
+                <th scope="row">{{p.nombre}}</th>
+                <td>{{p.descripcion}}</td>
+                <td>{{p.vendor}}</td>
+                <td><button (click)="getVariantes(p.id)" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#addTienda">Ver</button></td>
+              </tr>
+            </tbody>
+          </table>    
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+

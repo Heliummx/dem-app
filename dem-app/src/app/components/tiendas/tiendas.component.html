@@ -1,1 +1,86 @@
-<p>tiendas works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mt-4 mb-4 float-right">Tiendas</h1>
+        </div>
+        <div class="col">
+            <button type="button" class="btn float-right btn-primary btn align-middle mt-4 ml-5" data-toggle="modal" data-target="#addTienda">Añadir tienda</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-hover">
+                <thead class="thead-mdh">
+                  <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Representante</th>
+                    <th scope="col">Productos</th>
+                    <th scope="col">Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let t of tiendas;">
+                    <th scope="row">{{t.nombre}}</th>
+                    <td>{{getRepresentante(t.representanteId)}}</td>
+                    <td><button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#passModal">Editar</button></td>
+                    <td><button (click)="deleteTienda(t.id)" type="button" class="btn btn-danger btn-sm">Eliminar</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+        </div>
+    </div>
+</div>
+
+
+ <!--         CREAR TIENDA          -->
+
+ <div class="modal fade" id="addTienda" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLongTitle">Crear tienda</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+     
+        <form class="form-product">
+            <div class="form-group">
+              <label for="nombre">Nombre de la tienda</label>
+              <input  [(ngModel)]="nuevaTienda.nombre" name="nombre" type="text" class="form-control" >
+            </div>    
+            <div class="form-group">
+                <label for="api_key">Api Key *obtener de Shopify</label>
+                <input  [(ngModel)]="nuevaTienda.api_key" name="api_key" type="text" class="form-control" placeholder="ej. 9a9112323de128e7b5071e3dade5d1b4" >
+            </div>
+            <div class="form-group">
+                <label for="api_pass">Api Pass *obtener de Shopify</label>
+                <input  [(ngModel)]="nuevaTienda.api_pass" name="api_pass" type="text" class="form-control" placeholder="ej. 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">
+            </div>
+            <div class="form-group">
+                <label for="nombre">Secreto *obtener de Shopify</label>
+                <input  [(ngModel)]="nuevaTienda.secreto" name="secreto" type="text" class="form-control" placeholder="ej. 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">
+            </div>  
+            <div class="form-group">
+              <!-- <input  [(ngModel)]="nuevaTienda.representanteId" name="representante" type="text" class="form-control" > --> 
+              <label for="representante">Representante</label>
+                <ng-select [(ngModel)]="nuevaTienda.representanteId" name="representante" >
+                  <ng-option *ngFor="let user of users" [value]="user.id" >{{user.nombre}}</ng-option>
+               </ng-select>
+            </div>     
+            <div class="form-group">
+                <label for="nombre">URL de tienda</label>
+                <input  [(ngModel)]="nuevaTienda.hostname" name="hostname" type="text" class="form-control" placeholder="ej. swmx.myshopify.com">
+            </div>  
+        </form>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="crearTienda()" data-dismiss="modal" class="btn btn-primary">Crear</button>
+        <button type="button" (click)="nuevaTienda={}"class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

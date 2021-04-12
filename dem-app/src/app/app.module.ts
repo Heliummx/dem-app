@@ -13,6 +13,7 @@ import { ProductosTiendaComponent } from './components/productos-tienda/producto
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DistribuidoresComponent } from './components/distribuidores/distribuidores.component';
+import { CuentaComponent } from './components/cuenta/cuenta.component';
 
 // Services and utilitys
 import { ToastService } from './services/toast.service';
@@ -20,7 +21,8 @@ import {ToastrModule} from 'ngx-toastr';
 import { FormsModule }   from '@angular/forms';
 import { GlobalService } from './services/global.service';
 import { DataApiService } from './services/data-api.service';
-
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ProductosComponent } from './components/productos/productos.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { DataApiService } from './services/data-api.service';
     ProductosTiendaComponent,
     NavbarComponent,
     FooterComponent,
-    DistribuidoresComponent
+    DistribuidoresComponent,
+    CuentaComponent,
+    ProductosComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,8 @@ import { DataApiService } from './services/data-api.service';
     BrowserAnimationsModule,
     HttpClientModule,
     ToastrModule.forRoot(),
-    FormsModule
+    FormsModule,
+    NgSelectModule
   ],
   providers: [ ToastService, GlobalService, DataApiService ],
   bootstrap: [ AppComponent ]
