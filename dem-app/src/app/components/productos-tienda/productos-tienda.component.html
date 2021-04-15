@@ -1,1 +1,66 @@
-<p>productos-tienda works!</p>
+<div class="container">
+    <div class="row">   
+        <h1 class="text-center mt-4 mb-4 float-right">Productos de la tienda</h1>    
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-hover">
+                <thead class="thead-mdh">
+                  <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let p of productos">
+                    <th scope="row">{{p.nombre}}</th>
+                    <td>{{p.descripcion}}</td>
+                    <td>{{p.vendor}}</td>
+                    <td><button (click)="deleteProduct(p.id)" type="button" class="btn btn-danger btn-sm">Eliminar</button></td>
+                  </tr>
+                </tbody>
+              </table>         
+        </div>
+    </div>
+</div>
+
+
+ <!--         VARIANTES         -->
+
+ <div class="modal fade" id="addTienda" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLongTitle">Variantes</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+     
+        <table class="table table-hover">
+            <thead class="thead-mdh">
+              <tr>
+                <th scope="col">SKU</th>
+                <th scope="col">Precio Odoo</th>
+                <th scope="col">Stock</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let v of variantes;">
+                <th scope="row">{{v.sku}}</th>
+                <td>{{v.precio_base}}</td>
+                <td>{{v.stock}}</td>
+              </tr>
+            </tbody>
+          </table>    
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+

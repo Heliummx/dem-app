@@ -18,6 +18,7 @@ export class ProductosComponent implements OnInit {
   }
 
   productos:any=[]
+  variantes:any=[]
 
   getProductos() {
     if(this.global.getPermiso()=="admin"){
@@ -30,10 +31,25 @@ export class ProductosComponent implements OnInit {
 
   getVariantes(id:number){
     if(this.global.getPermiso()=="admin"){
-      this.api.get('/getOneRow',{table:"productos_odoo"})
-      .subscribe((productos:any)=>{
-        this.productos=productos.data;
+      this.api.get('/getOneRow',{table:"variante", field:"productOdooId", value:id})
+      .subscribe((variantes:any)=>{
+        this.variantes=variantes.data;
+        console.log(this.variantes)
       })
+    }
+  }
+
+  deleteProduct(id:number){
+    if(confirm("Si eliminas este producto debes eliminarlo también de cada Shopify en el que se encuentre")){
+      let params={
+        table:"productos_odoo",
+        id:id
+      }
+       this.api.post('/deleteRow',params)
+       .subscribe((response:any)=>{
+         // console.log("eliminado")
+         this.getProductos()
+       })
     }
   }
 
