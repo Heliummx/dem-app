@@ -1,6 +1,11 @@
 <div class="container">
     <div class="row">   
-        <h1 class="text-center mt-4 mb-4 float-right">Productos de la tienda</h1>    
+        <div class="col">
+            <h1 class="text-center mt-4 mb-4 float-right">{{tienda?.nombre}}</h1>
+        </div>
+        <div class="col">
+            <button type="button" class="btn float-right btn-primary btn align-middle mt-4 ml-5" data-toggle="modal" data-target="#addProduct">Agregar producto</button>
+        </div>
     </div>
     <div class="row">
         <div class="col">
@@ -28,37 +33,32 @@
 
  <!--         VARIANTES         -->
 
- <div class="modal fade" id="addTienda" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+ <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title" id="exampleModalLongTitle">Variantes</h2>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h2 class="modal-title" id="exampleModalLongTitle">Agregar producto a la tienda</h2>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-        </button>
+        </button> -->
       </div>
       <div class="modal-body">
-     
-        <table class="table table-hover">
-            <thead class="thead-mdh">
-              <tr>
-                <th scope="col">SKU</th>
-                <th scope="col">Precio Odoo</th>
-                <th scope="col">Stock</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let v of variantes;">
-                <th scope="row">{{v.sku}}</th>
-                <td>{{v.precio_base}}</td>
-                <td>{{v.stock}}</td>
-              </tr>
-            </tbody>
-          </table>    
-        
+        <div class="form-group">
+          <ng-select [(ngModel)]="nuevoProducto.id" name="representante" >
+            <ng-option *ngFor="let p of allProductos" [value]="p.id" >{{p.nombre}}</ng-option>
+          </ng-select>
+        </div>  
+        <div class="custom-control custom-switch">
+          <input type="checkbox" [(ngModel)]="nuevoProducto.odoo_sync" (click)="checkSwitch()" class="custom-control-input" id="customSwitch1">
+          <label class="custom-control-label odoo_sync" for="customSwitch1" >Sincronizar precio con Odoo</label>
+        </div> 
+        <div *ngIf="displayPrecio" class="form-group mt-3">
+          <input type="number" [(ngModel)]="nuevoProducto.precio_custom" class="form-control" id="new_price" placeholder="Ingresa el nuevo precio">
+        </div>  
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" (click)="agregarProducto()" data-dismiss="modal" class="btn btn-primary">Crear</button>
+        <button type="button" class="btn btn-secondary" (click)="nuevoProducto={}" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

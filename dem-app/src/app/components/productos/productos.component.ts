@@ -34,7 +34,6 @@ export class ProductosComponent implements OnInit {
       this.api.get('/getOneRow',{table:"variante", field:"productOdooId", value:id})
       .subscribe((variantes:any)=>{
         this.variantes=variantes.data;
-        console.log(this.variantes)
       })
     }
   }
