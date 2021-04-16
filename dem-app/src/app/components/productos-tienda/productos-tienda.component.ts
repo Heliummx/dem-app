@@ -17,7 +17,7 @@ export class ProductosTiendaComponent implements OnInit {
   ngOnInit(): void {
     this.tiendaId=this.activated.snapshot.paramMap.get("id");
     this.getTienda(this.tiendaId)
-    this.getAllProductos();
+    this.getProductos(this.tiendaId);
   }
   
   displayPrecio: boolean=false;
@@ -39,9 +39,11 @@ export class ProductosTiendaComponent implements OnInit {
 
   getProductos(id:number){
     if(this.global.getPermiso()=="admin"){
-      this.api.get('/getOneRow',{table:"productos_registrados", field:"tiendaId", value:id})
+      this.api.get('/getRegisteredProducts',{storeId:id})
       .subscribe((productos:any)=>{
-        this.productos=productos.data;
+        //console.log(this.productos)
+        this.productos=productos.products;
+        this.getAllProductos()
       })
     }
   }
@@ -64,6 +66,13 @@ export class ProductosTiendaComponent implements OnInit {
       this.api.get('/getRows',{table:"productos_odoo"})
       .subscribe((productos:any)=>{
         this.allProductos=productos.data;
+        this.productos.forEach((product:any) => { //filter new products
+          this.allProductos.some((e:any) => {
+            if(e.nombre == product.nombre){
+              this.allProductos=this.allProductos.filter((el:any) => { return el.id != e.id }); 
+            }
+          }) 
+        })
       })
     }
   }
@@ -95,7 +104,8 @@ export class ProductosTiendaComponent implements OnInit {
     this.api.post('/addProductToStore',apiParams)
       .subscribe((done:any)=>{
           this.toast.showSuccess("Agredado")  
-          this.nuevoProducto={}
+          this.nuevoProducto={odoo_sync:true}
+          this.getProductos(this.tiendaId);
       },(err)=>{
         this.toast.showError("Error en el servidor")
       })
@@ -108,6 +118,16 @@ export class ProductosTiendaComponent implements OnInit {
     }
     else{
       this.displayPrecio=true;
+    }
+  }
+
+  getVariantes(id:number){
+    if(this.global.getPermiso()=="admin"){
+      this.api.get('/getOneRow',{table:"variante", field:"productOdooId", value:id})
+      .subscribe((variantes:any)=>{
+        this.variantes=variantes.data;
+        console.log(this.variantes)
+      })
     }
   }
 
