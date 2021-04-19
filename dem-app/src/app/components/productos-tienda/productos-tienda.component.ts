@@ -24,6 +24,7 @@ export class ProductosTiendaComponent implements OnInit {
   productos:any=[]
   allProductos:any=[]
   variantes:any=[]
+  editedPrices:any=[]
   tiendaId:any
   tienda:any
   nuevoProducto:any={odoo_sync:true}
@@ -41,7 +42,7 @@ export class ProductosTiendaComponent implements OnInit {
     if(this.global.getPermiso()=="admin"){
       this.api.get('/getRegisteredProducts',{storeId:id})
       .subscribe((productos:any)=>{
-        //console.log(this.productos)
+        console.log(productos)
         this.productos=productos.products;
         this.getAllProductos()
       })
@@ -66,13 +67,13 @@ export class ProductosTiendaComponent implements OnInit {
       this.api.get('/getRows',{table:"productos_odoo"})
       .subscribe((productos:any)=>{
         this.allProductos=productos.data;
-        this.productos.forEach((product:any) => { //filter new products
-          this.allProductos.some((e:any) => {
-            if(e.nombre == product.nombre){
-              this.allProductos=this.allProductos.filter((el:any) => { return el.id != e.id }); 
-            }
-          }) 
-        })
+        // this.productos.forEach((product:any) => { 
+        //   this.allProductos.some((e:any) => {
+        //     if(e.nombre == product.nombre){
+        //       this.allProductos=this.allProductos.filter((el:any) => { return el.id != e.id }); 
+        //     }
+        //   }) 
+        // })
       })
     }
   }
@@ -99,16 +100,31 @@ export class ProductosTiendaComponent implements OnInit {
     }
   }
 
-  doProductPost(table:string, values:any){
-    let apiParams={table:table, values:values}
-    this.api.post('/addProductToStore',apiParams)
-      .subscribe((done:any)=>{
-          this.toast.showSuccess("Agredado")  
-          this.nuevoProducto={odoo_sync:true}
-          this.getProductos(this.tiendaId);
-      },(err)=>{
-        this.toast.showError("Error en el servidor")
-      })
+  async doProductPost(table:string, values:any){
+    let productOdooId=values[3]
+    this.api.get('/getOneRow',{table:"variante", field:"productOdooId", value:values[3]})
+    .subscribe((variantes:any)=>{
+      this.variantes=variantes.data;
+      let variantValues:Array<Array<any>>=[]  
+      this.variantes.forEach((variant:any, i:number) => {
+         let id=variant.id 
+         variantValues[i]=[]
+         variantValues[i][0]=values[0]
+         variantValues[i][1]=values[1]
+         variantValues[i][2]=values[2]
+         variantValues[i][3]=id
+         variantValues[i][4]=values[4]
+      });
+      let apiParams={table:table, values:variantValues, productOdooId:productOdooId}
+      this.api.post('/addProductToStore',apiParams)
+        .subscribe((done:any)=>{
+            this.toast.showSuccess("Agredado")  
+            this.nuevoProducto={odoo_sync:true}
+            this.getProductos(this.tiendaId);
+        },(err)=>{
+          this.toast.showError("Error en el servidor")
+        })
+    })
   }
 
   checkSwitch(){
@@ -121,13 +137,44 @@ export class ProductosTiendaComponent implements OnInit {
     }
   }
 
-  getVariantes(id:number){
+  async getVariantes(id:number){
     if(this.global.getPermiso()=="admin"){
       this.api.get('/getOneRow',{table:"variante", field:"productOdooId", value:id})
       .subscribe((variantes:any)=>{
         this.variantes=variantes.data;
         console.log(this.variantes)
+        return this.variantes
       })
+    }
+  }
+
+  cambiarPrecio(){
+    let nuevosPrecios:any=[]
+    let zero=false;
+    this.editedPrices.forEach((product:any) => {
+      if(!product.odoo_sync){
+        if(product.precio_custom > 0){
+          nuevosPrecios.push({tiendaId:this.tiendaId, precio:product.precio_custom, variantId:product.id, odoo_sync:false, shopifyId:product.shopifyId, shopifyVariantId:product.shopifyVariantId})
+        }
+        else{
+          this.toast.showError("El precio debe ser mayor de 0")
+          zero=true
+        }
+      }
+      else{
+        nuevosPrecios.push({tiendaId:this.tiendaId, precio:0, variantId:product.id, odoo_sync:true, shopifyId:product.shopifyId, shopifyVariantId:product.shopifyVariantId})
+      }
+    });
+    
+    if(nuevosPrecios.length && !zero){
+      this.api.post('/editStorePrices', nuevosPrecios)
+      .subscribe((done:any)=>{
+        console.log("ok")
+      })
+      this.editedPrices=[]
+    }
+    else{
+      this.toast.showInfo("No hiciste cambios")
     }
   }
 
