@@ -55,8 +55,10 @@ export class ProductosTiendaComponent implements OnInit {
         table:"productos_registrados",
         id:id
       }
+      console.log(params)
        this.api.post('/deleteRow',params)
        .subscribe((response:any)=>{
+         console.log("res", response)
          this.getProductos(this.tiendaId)
        })
     }
@@ -165,7 +167,6 @@ export class ProductosTiendaComponent implements OnInit {
         nuevosPrecios.push({tiendaId:this.tiendaId, precio:0, variantId:product.id, odoo_sync:true, shopifyId:product.shopifyId, shopifyVariantId:product.shopifyVariantId})
       }
     });
-    
     if(nuevosPrecios.length && !zero){
       this.api.post('/editStorePrices', nuevosPrecios)
       .subscribe((done:any)=>{
@@ -177,5 +178,4 @@ export class ProductosTiendaComponent implements OnInit {
       this.toast.showInfo("No hiciste cambios")
     }
   }
-
 }

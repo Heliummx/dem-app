@@ -7,8 +7,8 @@
                   <tr>
                     <th scope="col">Nombre</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Teléfono</th>
-                    <th scope="col">RFC</th>
+                    <!-- <th scope="col">Teléfono</th>
+                    <th scope="col">RFC</th> -->
                     <th scope="col">Dirección</th>
                     <th scope="col">Contraseña</th>
                     <th scope="col">Eliminar</th>
@@ -18,8 +18,8 @@
                   <tr *ngFor="let u of users;">
                     <th scope="row">{{u.nombre}}</th>
                     <td>{{u.mail}}</td>
-                    <td>{{u.telefono}}</td>
-                    <td>{{u.rfc}}</td>
+                    <!-- <td>{{u.telefono}}</td>
+                    <td>{{u.rfc}}</td> -->
                     <td>{{u.direccion}}</td>
                     <td><button (click)="userId=u.credencialesId" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#passModal">Cambiar</button></td>
                     <td><button (click)="deleteUser(u.credencialesId)" type="button" class="btn btn-danger btn-sm">Eliminar</button></td>

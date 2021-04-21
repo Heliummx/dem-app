@@ -35,7 +35,7 @@
                     </div></th>
                     <th  scope="row"><input *ngIf="!p.odoo_sync" class="form-control" type="number" [(ngModel)]="p.precio_custom" id="example-number-input"></th>
                     <!-- <td><button (click)="getVariantes(p.productOdooId)" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editPrice">Editar</button></td> -->
-                    <td><button (click)="deleteProduct(p.id)" type="button" class="btn btn-danger btn-sm">Eliminar</button></td>
+                    <td><button (click)="deleteProduct(p.prId)" type="button" class="btn btn-danger btn-sm">Eliminar</button></td>
                   </tr>
                 </tbody>
               </table>         

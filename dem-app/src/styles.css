@@ -32,3 +32,7 @@ thead.thead-mdh {
 .btn-primary:focus{
   background-color: #d89925;
 }
+
+tbody {
+  border: 1px solid #cacaca;
+}
