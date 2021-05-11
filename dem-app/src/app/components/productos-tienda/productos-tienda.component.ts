@@ -42,25 +42,28 @@ export class ProductosTiendaComponent implements OnInit {
     if(this.global.getPermiso()=="admin"){
       this.api.get('/getRegisteredProducts',{storeId:id})
       .subscribe((productos:any)=>{
-        console.log(productos)
+      //  console.log(productos)
         this.productos=productos.products;
         this.getAllProductos()
       })
     }
   }
 
-  deleteProduct(id:number){
-    if(confirm("Si eliminas este producto debes eliminarlo también de cada Shopify en el que se encuentre")){
+  deleteProduct(prId:number, shopifyId:any){
+    if(confirm("Si eliminas esta variante, se eliminará todo el producto, ¿estas seguro?")){
       let params={
         table:"productos_registrados",
-        id:id
+        prId:prId,
+        shopifyId:shopifyId,
+        tiendaId:this.tiendaId
       }
-      console.log(params)
-       this.api.post('/deleteRow',params)
+     // console.log(params)
+       this.api.post('/deleteShopifyProduct',params)
        .subscribe((response:any)=>{
-         console.log("res", response)
+      //   console.log("res", response)
          this.getProductos(this.tiendaId)
-       })
+         this.toast.showInfo("Producto eliminado de la tienda")
+       },(err)=>{ this.getProductos(this.tiendaId) })
     }
   }
 
@@ -69,13 +72,13 @@ export class ProductosTiendaComponent implements OnInit {
       this.api.get('/getRows',{table:"productos_odoo"})
       .subscribe((productos:any)=>{
         this.allProductos=productos.data;
-        // this.productos.forEach((product:any) => { 
-        //   this.allProductos.some((e:any) => {
-        //     if(e.nombre == product.nombre){
-        //       this.allProductos=this.allProductos.filter((el:any) => { return el.id != e.id }); 
-        //     }
-        //   }) 
-        // })
+        this.productos.forEach((product:any) => { 
+          this.allProductos.some((e:any) => {
+            if(e.nombre == product.nombre){
+              this.allProductos=this.allProductos.filter((el:any) => { return el.id != e.id }); 
+            }
+          }) 
+        })
       })
     }
   }
@@ -144,7 +147,7 @@ export class ProductosTiendaComponent implements OnInit {
       this.api.get('/getOneRow',{table:"variante", field:"productOdooId", value:id})
       .subscribe((variantes:any)=>{
         this.variantes=variantes.data;
-        console.log(this.variantes)
+     //   console.log(this.variantes)
         return this.variantes
       })
     }
@@ -170,7 +173,7 @@ export class ProductosTiendaComponent implements OnInit {
     if(nuevosPrecios.length && !zero){
       this.api.post('/editStorePrices', nuevosPrecios)
       .subscribe((done:any)=>{
-        console.log("ok")
+    //    console.log("ok")
       })
       this.editedPrices=[]
     }

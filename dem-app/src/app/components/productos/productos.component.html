@@ -10,17 +10,17 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Descripcion</th>
                     <th scope="col">Marca</th>
-                    <th scope="col">Variantes</th>
-                    <th scope="col">Eliminar</th>
+                    <th scope="col">Detalles</th>
+                    <!-- <th scope="col">Eliminar</th> -->
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let p of productos">
                     <th scope="row">{{p.nombre}}</th>
-                    <td>{{p.descripcion}}</td>
+                    <td [innerHTML]="p.descripcion"></td>
                     <td>{{p.vendor}}</td>
-                    <td><button (click)="getVariantes(p.id)" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addTienda">Ver</button></td>
-                    <td><button (click)="deleteProduct(p.id)" type="button" class="btn btn-danger btn-sm">Eliminar</button></td>
+                    <td><button (click)="getVariantes(p.id, p.nombre, p.tags)" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addTienda">Ver</button></td>
+                    <!-- <td><button (click)="deleteProduct(p.id)" type="button" class="btn btn-danger btn-sm">Eliminar</button></td> -->
                   </tr>
                 </tbody>
               </table>         
@@ -35,7 +35,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title" id="exampleModalLongTitle">Variantes</h2>
+        <h2 class="modal-title" id="exampleModalLongTitle">{{detalleVar}}</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -48,6 +48,7 @@
                 <th scope="col">SKU</th>
                 <th scope="col">Precio Odoo</th>
                 <th scope="col">Stock</th>
+                <th scope="col">Barcode</th>
               </tr>
             </thead>
             <tbody>
@@ -55,10 +56,12 @@
                 <th scope="row">{{v.sku}}</th>
                 <td>{{v.precio_base}}</td>
                 <td>{{v.stock}}</td>
+                <td>{{v.barcode}}</td>
               </tr>
             </tbody>
           </table>    
-        
+          <h3 style="font-weight: bold; text-align:center; margin-top: 25px;">Total Disponible: {{stockTotal}}</h3>
+          <p><strong>Categorías:</strong><span *ngFor="let tag of tagsFormat">  {{tag}}, </span></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

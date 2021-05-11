@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         }
         else if (this.global.getPermiso()=="user"){
           this.toastr.showSuccess('Inicio de sesión exitoso');
-          this.router.navigate(["/productos-tienda"])
+          this.router.navigate(["/tiendas-distribuidor"])
         }   
         else{
           this.toastr.showError('Usuario inválido')

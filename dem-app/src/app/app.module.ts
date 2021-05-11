@@ -23,6 +23,7 @@ import { GlobalService } from './services/global.service';
 import { DataApiService } from './services/data-api.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ProductosComponent } from './components/productos/productos.component';
+import { TiendasDistribuidorComponent } from './components/tiendas-distribuidor/tiendas-distribuidor.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ProductosComponent } from './components/productos/productos.component';
     FooterComponent,
     DistribuidoresComponent,
     CuentaComponent,
-    ProductosComponent
+    ProductosComponent,
+    TiendasDistribuidorComponent
   ],
   imports: [
     BrowserModule,

@@ -5,6 +5,7 @@ import { DistribuidoresComponent } from './components/distribuidores/distribuido
 import { LoginComponent } from './components/login/login.component';
 import { ProductosTiendaComponent } from './components/productos-tienda/productos-tienda.component';
 import { ProductosComponent } from './components/productos/productos.component';
+import { TiendasDistribuidorComponent } from './components/tiendas-distribuidor/tiendas-distribuidor.component';
 import { TiendasComponent } from './components/tiendas/tiendas.component';
 
 
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path:'productos-tienda/:id', component:ProductosTiendaComponent},
   {path:'cuenta', component:CuentaComponent},
   {path:'productos', component:ProductosComponent},
+  {path:'tiendas-distribuidor', component:TiendasDistribuidorComponent},
   {path: '',
       redirectTo: '/login',
       pathMatch: 'full'

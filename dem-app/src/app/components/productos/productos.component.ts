@@ -19,6 +19,9 @@ export class ProductosComponent implements OnInit {
 
   productos:any=[]
   variantes:any=[]
+  stockTotal:any=0
+  detalleVar:string=""
+  tagsFormat:any=""
 
   getProductos() {
     if(this.global.getPermiso()=="admin"){
@@ -29,11 +32,17 @@ export class ProductosComponent implements OnInit {
     }
   }
 
-  getVariantes(id:number){
+  getVariantes(id:number, nombre:string, tags:string){
+    this.detalleVar=nombre
+    this.stockTotal=0;
+    this.tagsFormat=tags.split("*")
     if(this.global.getPermiso()=="admin"){
       this.api.get('/getOneRow',{table:"variante", field:"productOdooId", value:id})
       .subscribe((variantes:any)=>{
         this.variantes=variantes.data;
+        this.variantes.forEach((v:any) => {
+          this.stockTotal+=v.stock
+        });
       })
     }
   }
