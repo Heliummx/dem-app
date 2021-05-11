@@ -5,7 +5,7 @@
         </div>
         <div class="col">
           <button *ngIf="editedPrices.length" type="button" class="btn float-right btn-secondary btn align-middle mt-4 ml-5" (click)="cambiarPrecio()">Cambiar precios</button>
-            <button type="button" class="btn float-right btn-primary btn align-middle mt-4 ml-5" data-toggle="modal" data-target="#addProduct">Agregar producto</button>
+            <button *ngIf="global.getPermiso()=='4dmoNusr3408!'" type="button" class="btn float-right btn-primary btn align-middle mt-4 ml-5" data-toggle="modal" data-target="#addProduct">Agregar producto</button>
         </div>
     </div>
     <div class="row">
@@ -14,28 +14,27 @@
                 <thead class="thead-mdh">
                   <tr>
                     <th scope="col">Nombre</th>
-                    <!-- <th scope="col">SKU</th> -->
                     <th scope="col">Variante</th>
                     <th scope="col">Valor</th>
                     <th scope="col">Stock</th>
-                    <th scope="col">Precio Odoo</th>
-                    <th scope="col">Precio Manual</th>
-                    <th scope="col">Eliminar</th>
+                    <th *ngIf="global.getPermiso()=='4dmoNusr3408!'" scope="col">Precio Odoo</th>
+                    <th *ngIf="global.getPermiso()=='4dmoNusr3408!'" scope="col">Precio Manual</th>
+                    <th scope="col">Descripción</th>
+                    <th *ngIf="global.getPermiso()=='4dmoNusr3408!'" scope="col">Eliminar</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let p of productos">
                     <th scope="row">{{p.nombre}}</th>
-                    <!-- <th scope="row">{{p.sku}}</th> -->
                     <th scope="row">{{p.title}}</th>
                     <th scope="row">{{p.value}}</th>
                     <th scope="row">{{p.stock}}</th>
-                    <th scope="row"><div class="form-check">
+                    <th *ngIf="global.getPermiso()=='4dmoNusr3408!'" scope="row"><div class="form-check">
                       <input class="form-check-input position-static" type="checkbox" id="blankCheckbox" [(ngModel)]="p.odoo_sync" (click)="editedPrices.push(p)" aria-label="...">
                     </div></th>
-                    <th  scope="row"><input *ngIf="!p.odoo_sync" class="form-control" type="number" [(ngModel)]="p.precio_custom" id="example-number-input"></th>
-                    <!-- <td><button (click)="getVariantes(p.productOdooId)" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editPrice">Editar</button></td> -->
-                    <td><button (click)="deleteProduct(p.prId, p.shopifyProductId)" type="button" class="btn btn-danger btn-sm">Eliminar</button></td>
+                    <th *ngIf="global.getPermiso()=='4dmoNusr3408!'" scope="row"><input *ngIf="!p.odoo_sync" class="form-control" type="number" [(ngModel)]="p.precio_custom" id="example-number-input"></th>
+                    <td><button (click)="setVariantIds(p.shopifyProductId, p.name)" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editDesc">Cambiar</button></td>
+                    <td *ngIf="global.getPermiso()=='4dmoNusr3408!'"><button (click)="deleteProduct(p.prId, p.shopifyProductId)" type="button" class="btn btn-danger btn-sm">Eliminar</button></td>
                   </tr>
                 </tbody>
               </table>         
@@ -44,70 +43,26 @@
 </div>
 
 
- <!--         VARIANTES         -->
-
- <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+ <!--         CAMBIAR DESCRIPCION         -->
+ <div class="modal fade" id="editDesc" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title" id="exampleModalLongTitle">Agregar producto a la tienda</h2>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <ng-select [(ngModel)]="nuevoProducto.id" name="representante" >
-            <ng-option *ngFor="let p of allProductos" [value]="p.id" >{{p.nombre}}</ng-option>
-          </ng-select>
-        </div>  
-        <div class="custom-control custom-switch" style="display: none;">
-          <input type="checkbox" [(ngModel)]="nuevoProducto.odoo_sync" (click)="checkSwitch()" class="custom-control-input" id="customSwitch1">
-          <label class="custom-control-label odoo_sync" for="customSwitch1" >Sincronizar precio con Odoo</label>
-        </div> 
-        <div *ngIf="displayPrecio" class="form-group mt-3">
-          <input type="number" [(ngModel)]="nuevoProducto.precio_custom" class="form-control" id="new_price" placeholder="Ingresa el nuevo precio">
-        </div>  
-      </div>
-      <div class="modal-footer">
-        <button type="button" (click)="agregarProducto()" data-dismiss="modal" class="btn btn-primary">Crear</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="editPrice" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title" id="exampleModalLongTitle">Variantes</h2>
+        <h2 class="modal-title" id="exampleModalLongTitle">Cambiar descripcion</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-     
-        <table class="table table-hover">
-            <thead class="thead-mdh">
-              <tr>
-                <th scope="col">SKU</th>
-                <th scope="col">Precio Odoo</th>
-                <th scope="col">Stock</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let v of variantes;">
-                <th scope="row">{{v.sku}}</th>
-                <td>{{v.precio_base}}</td>
-                <td>{{v.stock}}</td>
-              </tr>
-            </tbody>
-          </table>    
-        
+        <div class="form-group">
+          <label for="nombre">Descripción del producto: </label>
+          <input  [(ngModel)]="editedPrices.description" name="nombre" type="text" class="form-control" >
+        </div>    
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" (click)="cambiarDescripcion(editProduct)" data-dismiss="modal" class="btn btn-primary">Crear</button>
+        <button type="button" (click)="editProduct={}"class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
-

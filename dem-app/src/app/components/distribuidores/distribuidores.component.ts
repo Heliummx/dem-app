@@ -24,7 +24,7 @@ export class DistribuidoresComponent implements OnInit {
   public users:any=[]
 
   getUsers(){
-      if(this.global.getPermiso()=="admin"){
+      if(this.global.getPermiso()=="4dmoNusr3408!"){
         this.api.get('/getUsersWithCredentials', {})
         .subscribe((usuarios:any)=>{
         //  console.log(usuarios)

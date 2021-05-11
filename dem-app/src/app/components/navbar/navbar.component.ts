@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
          }
          else{
            this.displayMenu=true;           
-           if(this.global.getPermiso()=="admin"){
+           if(this.global.getPermiso()=="4dmoNusr3408!"){
              this.adminMenu=true;
            }
            else if(this.global.getPermiso()=="user"){
@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
            else{
              this.global.setPermiso(this.auth.getCurrentUser().permiso);
              //this.router.navigate(["/login"])
-             if(this.global.getPermiso()=="admin"){
+             if(this.global.getPermiso()=="4dmoNusr3408!"){
               this.adminMenu=true;
               }
               else if(this.global.getPermiso()=="user"){

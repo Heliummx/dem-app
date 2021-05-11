@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
         this.current=this.auth.getCurrentUser();
         this.global.setPermiso(this.current.permiso);
 
-        if(this.global.getPermiso()=="admin"){
+        if(this.global.getPermiso()=="4dmoNusr3408!"){
           this.toastr.showSuccess('Inicio de sesión exitoso');
           this.router.navigate(["/tiendas"])
         }

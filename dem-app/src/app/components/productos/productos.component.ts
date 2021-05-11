@@ -24,7 +24,7 @@ export class ProductosComponent implements OnInit {
   tagsFormat:any=""
 
   getProductos() {
-    if(this.global.getPermiso()=="admin"){
+    if(this.global.getPermiso()=="4dmoNusr3408!"){
       this.api.get('/getRows',{table:"productos_odoo"})
       .subscribe((productos:any)=>{
         this.productos=productos.data;
@@ -36,7 +36,7 @@ export class ProductosComponent implements OnInit {
     this.detalleVar=nombre
     this.stockTotal=0;
     this.tagsFormat=tags.split("*")
-    if(this.global.getPermiso()=="admin"){
+    if(this.global.getPermiso()=="4dmoNusr3408!"){
       this.api.get('/getOneRow',{table:"variante", field:"productOdooId", value:id})
       .subscribe((variantes:any)=>{
         this.variantes=variantes.data;

@@ -22,7 +22,7 @@ export class TiendasComponent implements OnInit {
   }
   
   getRepresentantes() {
-    if(this.global.getPermiso()=="admin"){
+    if(this.global.getPermiso()=="4dmoNusr3408!"){
       this.api.get('/getUsersWithCredentials', {})
         .subscribe((usuarios:any)=>{
           this.users=usuarios.users;
@@ -41,7 +41,7 @@ export class TiendasComponent implements OnInit {
   }
 
   getTiendas() {
-    if(this.global.getPermiso()=="admin"){
+    if(this.global.getPermiso()=="4dmoNusr3408!"){
       this.api.get('/getRows',{table:"tienda"})
         .subscribe((tiendas:any)=>{
           this.tiendas=tiendas.data;
@@ -68,7 +68,7 @@ export class TiendasComponent implements OnInit {
 
   public crearTienda(){
     if(this.allPropertiesStore(this.nuevaTienda)){
-      if(this.global.getPermiso()=="admin"){
+      if(this.global.getPermiso()=="4dmoNusr3408!"){
         let table="tienda";
         let values=[this.nuevaTienda.nombre, this.nuevaTienda.api_key, this.nuevaTienda.api_pass, this.nuevaTienda.secreto, this.nuevaTienda.representanteId, this.nuevaTienda.hostname, "location" ]
         let apiParams={table:table, values:values}

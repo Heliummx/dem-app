@@ -12,7 +12,7 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class ProductosTiendaComponent implements OnInit {
   
-  constructor(private api:DataApiService, private toast:ToastService, private global:GlobalService, public activated:ActivatedRoute) { }
+  constructor(private api:DataApiService, private toast:ToastService, public global:GlobalService, public activated:ActivatedRoute) { }
   
   ngOnInit(): void {
     this.tiendaId=this.activated.snapshot.paramMap.get("id");
@@ -28,25 +28,28 @@ export class ProductosTiendaComponent implements OnInit {
   tiendaId:any
   tienda:any
   nuevoProducto:any={odoo_sync:true}
+  editProduct:any={
+    shopifyProductId:"",
+    name:"",
+    description:""
+  }
 
   getTienda(id:number){
-    if(this.global.getPermiso()=="admin"){
+    //if(this.global.getPermiso()=="4dmoNusr3408!")
       this.api.get('/getOneRow',{table:"tienda", field:"id", value:id})
       .subscribe((tienda:any)=>{
         this.tienda=tienda.data[0];
       })
-    }
+    
   }
 
   getProductos(id:number){
-    if(this.global.getPermiso()=="admin"){
       this.api.get('/getRegisteredProducts',{storeId:id})
       .subscribe((productos:any)=>{
       //  console.log(productos)
         this.productos=productos.products;
         this.getAllProductos()
       })
-    }
   }
 
   deleteProduct(prId:number, shopifyId:any){
@@ -68,7 +71,6 @@ export class ProductosTiendaComponent implements OnInit {
   }
 
   getAllProductos() {
-    if(this.global.getPermiso()=="admin"){
       this.api.get('/getRows',{table:"productos_odoo"})
       .subscribe((productos:any)=>{
         this.allProductos=productos.data;
@@ -80,7 +82,6 @@ export class ProductosTiendaComponent implements OnInit {
           }) 
         })
       })
-    }
   }
 
   agregarProducto(){
@@ -143,14 +144,12 @@ export class ProductosTiendaComponent implements OnInit {
   }
 
   async getVariantes(id:number){
-    if(this.global.getPermiso()=="admin"){
-      this.api.get('/getOneRow',{table:"variante", field:"productOdooId", value:id})
-      .subscribe((variantes:any)=>{
-        this.variantes=variantes.data;
-     //   console.log(this.variantes)
-        return this.variantes
-      })
-    }
+    this.api.get('/getOneRow',{table:"variante", field:"productOdooId", value:id})
+    .subscribe((variantes:any)=>{
+      this.variantes=variantes.data;
+    //   console.log(this.variantes)
+      return this.variantes
+    })
   }
 
   cambiarPrecio(){
@@ -180,5 +179,15 @@ export class ProductosTiendaComponent implements OnInit {
     else{
       this.toast.showInfo("No hiciste cambios")
     }
+  }
+
+  setVariantIds(shopifyProductId:any, productName:any){
+    this.editProduct.shopifyProductId=shopifyProductId
+    this.editedPrices.name=productName    
+    console.log(this.editProduct)
+  }
+
+  cambiarDescripcion(editProduct:any){
+
   }
 }
