@@ -27,8 +27,8 @@ export class DistribuidoresComponent implements OnInit {
       if(this.global.getPermiso()=="4dmoNusr3408!"){
         this.api.get('/getUsersWithCredentials', {})
         .subscribe((usuarios:any)=>{
-        //  console.log(usuarios)
           this.users=usuarios.users;
+          this.users = this.users.filter((obj:any) => obj.nombre != "Administrador MDH");  //DEJALO SI NOMBRE ES DIFERENTE DE ADMINISTRADOR MDH
         })
       }
   }

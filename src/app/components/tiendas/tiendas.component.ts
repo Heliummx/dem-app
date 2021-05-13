@@ -26,6 +26,7 @@ export class TiendasComponent implements OnInit {
       this.api.get('/getUsersWithCredentials', {})
         .subscribe((usuarios:any)=>{
           this.users=usuarios.users;
+          this.users = this.users.filter((obj:any) => obj.nombre != "Administrador MDH");  //DEJALO SI NOMBRE ES DIFERENTE DE ADMINISTRADOR MDH
         })
     }
   }
@@ -60,9 +61,7 @@ export class TiendasComponent implements OnInit {
            this.getTiendas()
            this.toast.showSuccess("Tienda eliminada con exito")
          },
-         (err)=>{
-           throw err
-         })
+         (err)=>{ throw err })
       }  
   }
 
@@ -74,7 +73,6 @@ export class TiendasComponent implements OnInit {
         let apiParams={table:table, values:values}
 
         this.nuevaTienda.hostname=this.nuevaTienda.hostname.replace('https://', '')
-
         if(this.nuevaTienda.hostname && this.nuevaTienda.hostname[this.nuevaTienda.hostname.length - 1]=="/"){ 
           values[5] = this.nuevaTienda.hostname.slice(0, -1)
         }
@@ -100,12 +98,8 @@ export class TiendasComponent implements OnInit {
   }
 
   public allPropertiesStore(tienda:any) {
-    if(tienda.nombre && tienda.api_key && tienda.api_pass && tienda.secreto && tienda.representanteId && tienda.hostname){
-      return true
-    }
-    else{
-      return false
-    }
+    if(tienda.nombre && tienda.api_key && tienda.api_pass && tienda.secreto && tienda.representanteId && tienda.hostname){  return true }
+    else{ return false }
   }
 
 }
