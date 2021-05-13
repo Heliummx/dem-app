@@ -31,7 +31,8 @@ export class ProductosTiendaComponent implements OnInit {
   editProduct:any={
     shopifyProductId:"",
     name:"",
-    description:""
+    description:"",
+    tiendaId:""
   }
 
   getTienda(id:number){
@@ -171,9 +172,7 @@ export class ProductosTiendaComponent implements OnInit {
     });
     if(nuevosPrecios.length && !zero){
       this.api.post('/editStorePrices', nuevosPrecios)
-      .subscribe((done:any)=>{
-    //    console.log("ok")
-      })
+      .subscribe((done:any)=>{ })
       this.editedPrices=[]
     }
     else{
@@ -183,11 +182,16 @@ export class ProductosTiendaComponent implements OnInit {
 
   setVariantIds(shopifyProductId:any, productName:any){
     this.editProduct.shopifyProductId=shopifyProductId
-    this.editedPrices.name=productName    
-    console.log(this.editProduct)
+    this.editProduct.name=productName    
+    this.editProduct.description=""
+    this.editProduct.tiendaId=this.tiendaId
   }
 
   cambiarDescripcion(editProduct:any){
-
+    this.api.post('/editProductDesc', {shopifyProductId:editProduct.shopifyProductId, description:editProduct.description, tiendaId:this.tiendaId})
+    .subscribe((done:any)=>{
+      this.toast.showSuccess("Editado con éxito")
+    })
   }
+
 }

@@ -33,7 +33,7 @@
                       <input class="form-check-input position-static" type="checkbox" id="blankCheckbox" [(ngModel)]="p.odoo_sync" (click)="editedPrices.push(p)" aria-label="...">
                     </div></th>
                     <th *ngIf="global.getPermiso()=='4dmoNusr3408!'" scope="row"><input *ngIf="!p.odoo_sync" class="form-control" type="number" [(ngModel)]="p.precio_custom" id="example-number-input"></th>
-                    <td><button (click)="setVariantIds(p.shopifyProductId, p.name)" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editDesc">Cambiar</button></td>
+                    <td><button (click)="setVariantIds(p.shopifyProductId, p.nombre)" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editDesc">Cambiar</button></td>
                     <td *ngIf="global.getPermiso()=='4dmoNusr3408!'"><button (click)="deleteProduct(p.prId, p.shopifyProductId)" type="button" class="btn btn-danger btn-sm">Eliminar</button></td>
                   </tr>
                 </tbody>
@@ -42,26 +42,56 @@
     </div>
 </div>
 
-
  <!--         CAMBIAR DESCRIPCION         -->
  <div class="modal fade" id="editDesc" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title" id="exampleModalLongTitle">Cambiar descripcion</h2>
+        <h2 class="modal-title" id="exampleModalLongTitle">Descripcion de {{editProduct.name}}</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label for="nombre">Descripción del producto: </label>
-          <input  [(ngModel)]="editedPrices.description" name="nombre" type="text" class="form-control" >
+          <label for="nombre">Ingresa la nueva descripción del producto: </label>
+          <textarea [(ngModel)]="editProduct.description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>    
       </div>
       <div class="modal-footer">
-        <button type="button" (click)="cambiarDescripcion(editProduct)" data-dismiss="modal" class="btn btn-primary">Crear</button>
+        <button type="button" (click)="cambiarDescripcion(editProduct)" data-dismiss="modal" class="btn btn-primary">Cambiar</button>
         <button type="button" (click)="editProduct={}"class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--         AGREGAR PRODUCTO         -->
+
+<div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLongTitle">Agregar producto a la tienda</h2>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <ng-select [(ngModel)]="nuevoProducto.id" name="representante" >
+            <ng-option *ngFor="let p of allProductos" [value]="p.id" >{{p.nombre}}</ng-option>
+          </ng-select>
+        </div>  
+        <div class="custom-control custom-switch" style="display: none;">
+          <input type="checkbox" [(ngModel)]="nuevoProducto.odoo_sync" (click)="checkSwitch()" class="custom-control-input" id="customSwitch1">
+          <label class="custom-control-label odoo_sync" for="customSwitch1" >Sincronizar precio con Odoo</label>
+        </div> 
+        <div *ngIf="displayPrecio" class="form-group mt-3">
+          <input type="number" [(ngModel)]="nuevoProducto.precio_custom" class="form-control" id="new_price" placeholder="Ingresa el nuevo precio">
+        </div>  
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="agregarProducto()" data-dismiss="modal" class="btn btn-primary">Crear</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
