@@ -10,24 +10,27 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 
 export class ProductosComponent implements OnInit {
-
+  
   constructor(private api:DataApiService, private toast:ToastService, private global:GlobalService) { }
   
   ngOnInit(): void {
     this.getProductos()
   }
-
+  
   productos:any=[]
   variantes:any=[]
+  filtered:any=[]
   stockTotal:any=0
   detalleVar:string=""
   tagsFormat:any=""
+  word:string="";
 
   getProductos() {
     if(this.global.getPermiso()=="4dmoNusr3408!"){
       this.api.get('/getRows',{table:"productos_odoo"})
       .subscribe((productos:any)=>{
         this.productos=productos.data;
+        this.filtered=this.productos
       })
     }
   }
@@ -55,9 +58,23 @@ export class ProductosComponent implements OnInit {
       }
        this.api.post('/deleteRow',params)
        .subscribe((response:any)=>{
-         // console.log("eliminado")
          this.getProductos()
        })
+    }
+  }
+
+  onSearchChange(): void {  
+    this.word=this.word.toLowerCase()
+    if(this.word==""){
+      this.filtered=this.productos
+    }
+    else{
+       this.filtered=[];
+       this.productos.forEach((producto:any) => { 
+         if(producto.nombre.toString().toLowerCase().indexOf(this.word)!=-1 || producto.vendor.toString().toLowerCase().indexOf(this.word)!=-1){
+           this.filtered.push(producto);
+         }
+       });
     }
   }
 

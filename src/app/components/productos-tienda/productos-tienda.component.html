@@ -1,12 +1,15 @@
 <div class="container">
     <div class="row">   
-        <div class="col">
-            <h1 class="text-center mt-4 mb-4 float-right">{{tienda?.nombre}}</h1>
-        </div>
-        <div class="col">
-          <button *ngIf="editedPrices.length" type="button" class="btn float-right btn-secondary btn align-middle mt-4 ml-5" (click)="cambiarPrecio()">Cambiar precios</button>
-            <button *ngIf="global.getPermiso()=='4dmoNusr3408!'" type="button" class="btn float-right btn-primary btn align-middle mt-4 ml-5" data-toggle="modal" data-target="#addProduct">Agregar producto</button>
-        </div>
+      <div class="col-5" style="display:flex">
+        <button *ngIf="global.getPermiso()=='4dmoNusr3408!'" type="button" class="btn btn-primary btn align-middle mt-4 ml-5 mb-4" data-toggle="modal" data-target="#addProduct">Agregar producto</button>
+        <button *ngIf="editedPrices.length" type="button" class="btn btn-secondary btn align-middle mt-4 ml-5 mb-4" (click)="cambiarPrecio()">Cambiar precios</button>
+      </div>
+      <div class="col-3">
+        <h1 class="float-left mt-4 mb-4">{{tienda?.nombre}}</h1>
+      </div>
+      <div class="col-4">
+        <input (input)="onSearchChange()" placeholder="Buscar por nombre o sku..." [(ngModel)]="word" name="nombre" type="text" class="form-control mt-4 mb-4 float-right" >
+      </div>
     </div>
     <div class="row">
         <div class="col">
@@ -24,7 +27,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let p of productos">
+                  <tr *ngFor="let p of filtered">
                     <th scope="row">{{p.nombre}}</th>
                     <th scope="row">{{p.title}}</th>
                     <th scope="row">{{p.value}}</th>

@@ -1,6 +1,11 @@
 <div class="container">
     <div class="row">   
-        <h1 class="text-center mt-4 mb-4 float-right">Productos</h1>    
+      <div class="col-8">
+        <h1 class="mt-4 mb-4 float-left">Productos</h1>
+      </div>    
+      <div class="col-4">
+        <input (input)="onSearchChange()" placeholder="Buscar por nombre o marca..." [(ngModel)]="word" name="nombre" type="text" class="form-control mt-4 mb-4 float-right" >
+      </div>    
     </div>
     <div class="row">
         <div class="col">
@@ -15,7 +20,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let p of productos">
+                  <tr *ngFor="let p of filtered">
                     <th scope="row">{{p.nombre}}</th>
                     <td [innerHTML]="p.descripcion"></td>
                     <td>{{p.vendor}}</td>

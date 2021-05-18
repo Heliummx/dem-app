@@ -34,6 +34,8 @@ export class ProductosTiendaComponent implements OnInit {
     description:"",
     tiendaId:""
   }
+  word: string="";
+  filtered:any=[];
 
   getTienda(id:number){
     //if(this.global.getPermiso()=="4dmoNusr3408!")
@@ -49,6 +51,7 @@ export class ProductosTiendaComponent implements OnInit {
       .subscribe((productos:any)=>{
       //  console.log(productos)
         this.productos=productos.products;
+        this.filtered=this.productos
         this.getAllProductos()
       })
   }
@@ -194,4 +197,20 @@ export class ProductosTiendaComponent implements OnInit {
     })
   }
 
+  onSearchChange(): void {  
+    this.word=this.word.toLowerCase()
+    if(this.word==""){
+      this.filtered=this.productos
+    }
+    else{
+       this.filtered=[];
+       this.productos.forEach((producto:any) => {
+         console.log(producto)
+         if(producto.nombre.toString().toLowerCase().indexOf(this.word)!=-1 || producto.sku.toString().toLowerCase().indexOf(this.word)!=-1){
+           this.filtered.push(producto);
+         }
+       });
+    }
+  }
+  
 }
