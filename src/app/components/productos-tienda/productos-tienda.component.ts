@@ -174,9 +174,11 @@ export class ProductosTiendaComponent implements OnInit {
       }
     });
     if(nuevosPrecios.length && !zero){
+      //console.log(nuevosPrecios)
       this.api.post('/editStorePrices', nuevosPrecios)
-      .subscribe((done:any)=>{ })
+      .subscribe(()=>{  })
       this.editedPrices=[]
+      this.toast.showSuccess("Productos editados en la tienda")
     }
     else{
       this.toast.showInfo("No hiciste cambios")
