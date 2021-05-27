@@ -15,6 +15,7 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Representante</th>
                     <th scope="col">Productos</th>
+                    <th scope="col">Todo</th>
                     <th scope="col">Eliminar</th>
                   </tr>
                 </thead>
@@ -23,6 +24,7 @@
                     <th scope="row">{{t.nombre}}</th>
                     <td>{{getRepresentante(t.representanteId)}}</td>
                     <td><button type="button" class="btn btn-secondary btn-sm"  [routerLink]="['/productos-tienda',t.id]">Editar</button></td>
+                    <td><button (click)="addAll(t.id)" type="button" class="btn btn-info btn-sm">Vincular</button></td>
                     <td><button (click)="deleteTienda(t.id)" type="button" class="btn btn-danger btn-sm">Eliminar</button></td>
                   </tr>
                 </tbody>

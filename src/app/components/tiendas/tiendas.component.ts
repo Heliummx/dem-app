@@ -65,6 +65,20 @@ export class TiendasComponent implements OnInit {
       }  
   }
 
+  public addAll(id:number){
+    if(confirm("¿Quieres subir todos los productos del DEM a esta tienda?")){
+      let params={
+        table:"tienda",
+        id:id
+      }
+       this.api.post('/allProductsToStore',params)
+       .subscribe((response:any)=>{
+         this.toast.showInfo("Esta acción tomará varios minutos")
+       },
+       (err)=>{ throw err })
+    }  
+}
+
   public crearTienda(){
     if(this.allPropertiesStore(this.nuevaTienda)){
       if(this.global.getPermiso()=="4dmoNusr3408!"){
