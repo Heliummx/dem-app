@@ -75,7 +75,10 @@ export class TiendasComponent implements OnInit {
        .subscribe((response:any)=>{
          this.toast.showInfo("Esta acción tomará varios minutos")
        },
-       (err)=>{ throw err })
+       (err)=>{
+         console.log("error from server on Add All") 
+         throw err
+        })
     }  
 }
 
