@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api_url: "https://1f305b80ae62.ngrok.io",
+  api_url: "https://mdh-dem.servicioswebmex.com",
   permiso: ""
 };
 

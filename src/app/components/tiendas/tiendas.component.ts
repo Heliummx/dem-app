@@ -14,6 +14,8 @@ export class TiendasComponent implements OnInit {
   public nuevaTienda:any={}
   public users:any=[]
 
+  public tiendaEdit:any={}
+
   constructor( private global: GlobalService, private api:DataApiService , private toast:ToastService) { }
 
   ngOnInit(): void {
@@ -48,6 +50,10 @@ export class TiendasComponent implements OnInit {
           this.tiendas=tiendas.data;
         })
     }
+  }
+
+  public setTiendaEdit(tienda:any){
+    this.tiendaEdit=tienda
   }
 
   public deleteTienda(id:number){
@@ -86,7 +92,7 @@ export class TiendasComponent implements OnInit {
     if(this.allPropertiesStore(this.nuevaTienda)){
       if(this.global.getPermiso()=="4dmoNusr3408!"){
         let table="tienda";
-        let values=[this.nuevaTienda.nombre, this.nuevaTienda.api_key, this.nuevaTienda.api_pass, this.nuevaTienda.secreto, this.nuevaTienda.representanteId, this.nuevaTienda.hostname, "location" ]
+        let values=[this.nuevaTienda.nombre, this.nuevaTienda.api_key, this.nuevaTienda.api_pass, this.nuevaTienda.secreto, this.nuevaTienda.representanteId, this.nuevaTienda.hostname, "location", 15 ]
         let apiParams={table:table, values:values}
 
         this.nuevaTienda.hostname=this.nuevaTienda.hostname.replace('https://', '')
@@ -107,6 +113,41 @@ export class TiendasComponent implements OnInit {
         },(err)=>{
           this.toast.showError("Error al crear la tienda, revisa tus valores")
         })
+      }
+    }
+    else{
+      this.toast.showError("Debes llenar todos los campos")
+    }
+  }
+
+  public editarTienda(){
+    if(this.allPropertiesStore(this.tiendaEdit) && this.tiendaEdit.descuento){
+      if(this.global.getPermiso()=="4dmoNusr3408!"){
+        let table="tienda";
+        let values=[this.tiendaEdit.nombre, this.tiendaEdit.api_key, this.tiendaEdit.api_pass, this.tiendaEdit.secreto, this.tiendaEdit.representanteId, this.tiendaEdit.hostname, this.tiendaEdit.location, this.tiendaEdit.descuento, this.tiendaEdit.id ]
+        let apiParams={table:table, values:values}
+
+        this.tiendaEdit.hostname=this.tiendaEdit.hostname.replace('https://', '')
+        if(this.tiendaEdit.hostname && this.tiendaEdit.hostname[this.tiendaEdit.hostname.length - 1]=="/"){ 
+          values[5] = this.tiendaEdit.hostname.slice(0, -1)
+        }
+
+        console.log(apiParams)
+        this.api.post('/editStore',apiParams)
+        .subscribe((done:any)=>{
+          console.log(done)
+          if(done.message=="Tienda editada"){
+            this.toast.showSuccess("La tienda se ha editado")
+            this.tiendaEdit={}
+            this.getTiendas()
+          }
+          else{
+            this.toast.showError("Error al crear la tienda, revisa tus valores")
+          }
+        },(err)=>{
+          this.toast.showError("Error al crear la tienda, revisa tus valores")
+        })
+
       }
     }
     else{
